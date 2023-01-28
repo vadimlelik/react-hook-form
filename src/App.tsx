@@ -13,23 +13,31 @@ function App() {
     const {register, handleSubmit, control, formState: {errors}} = useForm<Inputs>()
 
     const onSubmitCtr = (data: Inputs) => {
-        setFormData([...formData,data])
+        setFormData([...formData, data])
     }
-    console.log(formData)
-
     return (
         <div className="App">
 
-            <hr/>
-            <h1>New Form Input</h1>
             <form onSubmit={handleSubmit(onSubmitCtr)}>
+                <Input {...register('example', {required: {value: true, message: 'Заполните меня'}})}
+                       error={errors.example}/>
+                <hr/>
+                <h1>New Form Input</h1>
+
                 <Controller
                     name='inputControlled'
-                    render={({field: {value, ...rest}}) => <InputCtr
-                        value={value ? value : ''}
-                        {...rest}
-                        placeholder='Контрол инпут'/>}
-                    control={control}/>
+                    render={({field: {value, ...rest}, fieldState: {error}}) => (
+                        <InputCtr
+                            error={error}
+                            value={value ? value : ''}
+
+                            {...rest}
+                            placeholder='Контрол инпут'/>)
+                    }
+                    control={control}
+                    rules={{required: {value: true, message: 'Заполните контролируемый инпут'}}}
+                />
+
                 <input type='submit'/>
             </form>
 

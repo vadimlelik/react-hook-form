@@ -1,7 +1,10 @@
-import {SubmitHandler, useForm, Controller} from "react-hook-form";
+import {useForm, Controller} from "react-hook-form";
 import {useState} from "react";
 import Input from "./component/Input";
 import InputCtr from "./component/InputCtr";
+import './styles/index.scss'
+import {useTheme} from "./providers/ThemeProvider";
+import {classNames} from "./shared/lib/classNames";
 
 type Inputs = {
     example: string
@@ -9,6 +12,8 @@ type Inputs = {
 };
 
 function App() {
+    const {theme, toggleTheme} = useTheme()
+
     const [formData, setFormData] = useState<Inputs[]>([])
     const {register, handleSubmit, control, formState: {errors}} = useForm<Inputs>()
 
@@ -16,7 +21,8 @@ function App() {
         setFormData([...formData, data])
     }
     return (
-        <div className="App">
+        <div className={classNames("app", {}, [theme])}>
+            <button onClick={toggleTheme}> Edite Theme</button>
 
             <form onSubmit={handleSubmit(onSubmitCtr)}>
                 <Input {...register('example', {required: {value: true, message: 'Заполните меня'}})}

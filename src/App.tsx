@@ -1,10 +1,12 @@
 import {useForm, Controller} from "react-hook-form";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Input from "./component/Input";
 import InputCtr from "./component/InputCtr";
 import './styles/index.scss'
 import {useTheme} from "./providers/ThemeProvider";
 import {classNames} from "./shared/lib/classNames";
+import {useDispatch} from "react-redux";
+import {loadUsersList} from "./store/usersSlice";
 
 type Inputs = {
     example: string
@@ -12,6 +14,12 @@ type Inputs = {
 };
 
 function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(loadUsersList())
+    }, [])
     const {theme, toggleTheme} = useTheme()
 
     const [formData, setFormData] = useState<Inputs[]>([])

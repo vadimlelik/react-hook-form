@@ -1,10 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {IUser} from "../types/user";
-import {AppThunk} from "./store";
+import {AppThunk, RootState} from "./store";
 import axios from "axios";
 
-
-// export const loadUsers =  createAsyncThunk<{data:IUser[],undefiend,{}}>({})
 
 type Status = "idle" | "loading" | "rejected" | "received";
 
@@ -31,22 +29,28 @@ const usersSlice = createSlice({
                 console.log(action.payload)
                 state.list = action.payload
                 state.status = 'received'
+            },
+            usersError: (state, action) => {
+                console.log(action.payload)
+                state.error = action.payload.message
             }
+
         }
     }
 )
 const {actions, reducer: userReducer} = usersSlice
-const {usersReceived, userRequested} = actions
+const {usersReceived, userRequested, usersError} = actions
 
 export const loadUsersList = (): AppThunk => async (dispatch, getState) => {
     dispatch(userRequested)
     try {
-        const {data}: any = await axios("https://jsonplaceholder.typicode.com/users")
+        const {data} = await axios<IUser[]>("https://jsonplaceholder.typicode.com/users")
         dispatch(usersReceived(data))
 
     } catch (e) {
-
+        dispatch(usersError(e))
     }
 }
 
+export const getUsers = () => (state: RootState) => state.users.list
 export default userReducer

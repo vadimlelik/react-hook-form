@@ -5,8 +5,9 @@ import InputCtr from "./component/InputCtr";
 import './styles/index.scss'
 import {useTheme} from "./providers/ThemeProvider";
 import {classNames} from "./shared/lib/classNames";
-import {useDispatch} from "react-redux";
-import {loadUsersList} from "./store/usersSlice";
+import {getUsers, loadUsersList,} from "./store/usersSlice";
+import {useAppDispatch} from "./store/store";
+import {useSelector} from "react-redux";
 
 type Inputs = {
     example: string
@@ -14,10 +15,10 @@ type Inputs = {
 };
 
 function App() {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
+    const users = useSelector(getUsers())
 
     useEffect(() => {
-        // @ts-ignore
         dispatch(loadUsersList())
     }, [])
     const {theme, toggleTheme} = useTheme()
@@ -55,6 +56,8 @@ function App() {
                 <input type='submit'/>
             </form>
 
+
+            <ul>{users && users.map((user) => <li key={user.id}>{user.name}</li>)}</ul>
         </div>
 
     )

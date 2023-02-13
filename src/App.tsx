@@ -1,20 +1,30 @@
-import './styles/index.scss'
-import {useTheme} from "./providers/ThemeProvider";
-import {classNames} from "./shared/lib/classNames";
-import {AppRouter} from "./providers/router";
+import "./styles/index.scss";
+import { useTheme } from "./providers/ThemeProvider";
+import { classNames } from "./shared/lib/classNames";
+import { AppRouter } from "./providers/router";
+import { useEffect, useState } from "react";
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
+  const [error, setError] = useState(false);
 
-    const {theme, toggleTheme} = useTheme()
+  const handleError = () => {
+    setError((prev) => !prev);
+  };
 
-    return (
-        <div className={classNames("app", {}, [theme])}>
-            <button onClick={toggleTheme}> Edite Theme</button>
+  useEffect(() => {
+    if (error) {
+      throw new Error();
+    }
+  }, [error]);
+  return (
+    <div className={classNames("app", {}, [theme])}>
+      <button onClick={toggleTheme}> Edit Theme</button>
 
-            <AppRouter/>
-        </div>
-
-    )
+      <AppRouter />
+      <button onClick={handleError}> Throw on Error </button>
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -5,7 +5,7 @@ import { ThemeProvider } from "./providers/ThemeProvider";
 import { Provider } from "react-redux";
 import { createStore } from "./store/store";
 import { BrowserRouter } from "react-router-dom";
-import ErrorBoundary from "./providers/router/ErrorBoundary/ui/ErrorBoundary";
+import ErrorBoundary from "./providers/ErrorBoundary/ui/ErrorBoundary";
 
 const store = createStore();
 

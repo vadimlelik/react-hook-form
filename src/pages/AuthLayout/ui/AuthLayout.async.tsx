@@ -1,11 +1,3 @@
-import React from 'react';
+import {lazy} from "react";
 
-const AuthLayout = () => {
-    return (
-        <div>
-
-        </div>
-    );
-};
-
-export default AuthLayout;
+export const AuthLayoutAsync = lazy(()=> import('./AuthLayout'))

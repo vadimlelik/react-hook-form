@@ -1,6 +1,6 @@
 import React, { ErrorInfo } from "react";
 import { ReactNode } from "react";
-import BugButton from "../../../../widgest/Button/BugButton/BugButton";
+import BugButton from "../../../widgest/Button/BugButton/BugButton";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
